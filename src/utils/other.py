@@ -20,7 +20,7 @@ def ask_user_file():
     return float(thickness), float(frequency), float(resistance)*1e3
 
 def ask_user_folder():
-    folders   = np.array(np.sort([int(file[:-2]) for file in os.listdir('data')]), dtype=str)
+    folders   = np.array(np.sort([int(file[:-2]) for file in os.listdir('data') if not file.startswith('.')]), dtype=str)
     thickness = input("\033[92mEnter the thickness in um\033[0m\nChoose between: " + ", ".join(folders) + "\n")
 
     return float(thickness)

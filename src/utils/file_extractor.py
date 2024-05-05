@@ -15,7 +15,7 @@ def extract_files_dir(directory):
     frequencies = []
     resistances = []
     
-    for file_name in os.listdir(directory):
+    for file_name in [file for file in os.listdir(directory) if not file.startswith('.')]:
         # Check if the file name matches the expected pattern
         match = re.search(r'(\d+)Hz_(\d+)Ohms\.csv', file_name)
         if match:

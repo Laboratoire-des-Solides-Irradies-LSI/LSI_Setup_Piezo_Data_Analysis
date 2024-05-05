@@ -13,7 +13,7 @@ from src.utils import get_specs, compute_A, compute_C
 ## Plot the scaling lows
 ##########################################
 
-all_thick     = np.array(np.sort([int(file[:-2]) for file in os.listdir('data')]), dtype=str)
+all_thick     = np.array(np.sort([int(file[:-2]) for file in os.listdir('data') if not file.startswith('.')]), dtype=str)
 As_fit        = []
 As_theory     = []
 As_theory_err = []
