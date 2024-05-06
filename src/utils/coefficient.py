@@ -23,7 +23,6 @@ def compute_A(values):
     """
     Calculate the value of the coefficient A from the specifications.
     """
-    print("\033[92mCompute A\033[0m")
     q31 = (values['d31'] + values['nu']*values['d33']) / ( (1-values['nu']) / values['ez'] - 2 * (values['nu'])**2 / values['ez'])
 
     A = values['ap'] * q31 * ( 3 * (1-values['nu']) / (7 - values['nu']) * values['rp'] / (values['l']*values['ez'])) ** (2/3) * values['gam']
@@ -35,7 +34,6 @@ def compute_C(values):
     """
     Calculate the value of the coefficient C (capacitance) from the specifications.
     """
-    print("\033[92mCompute C\033[0m")
     C   = values['eps'] * 8.85e-12 * values['ae'] / values['l']
     print(f'C    = {C.nominal_value:8.2e} ± {C.std_dev:.2e}')
 

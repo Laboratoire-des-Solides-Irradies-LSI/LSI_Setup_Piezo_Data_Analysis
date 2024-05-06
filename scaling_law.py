@@ -22,7 +22,7 @@ A_fit, _      = fit_V(np.concatenate(dataset.frequencies)*2*np.pi * np.concatena
                  np.concatenate(dataset.voltage) / np.concatenate(dataset.pressure),
                  C=C['nominal'])
 
-colors        = plt.cm.viridis(np.linspace(0, 1, len(dataset.frequencies)))
+colors        = plt.cm.viridis(np.linspace(0, 1, len(dataset.frequencies)+1))
 
 ##########################################
 ## Plot the voltage
@@ -31,7 +31,9 @@ colors        = plt.cm.viridis(np.linspace(0, 1, len(dataset.frequencies)))
 plt.figure()
 
 for R, freq, pressure, voltage, color in zip(dataset.resistances, np.unique(dataset.frequencies), dataset.pressure, dataset.voltage, colors):
-    plt.scatter(R, voltage / pressure, s=2, color=color, zorder=2, label=f'{freq:.0f} Hz')
+    plt.plot(R, voltage / pressure,
+                marker="o", linestyle='None', markersize=np.sqrt(4), 
+                color=color, zorder=2, label=rf'\ \makebox[3mm][r]{{{freq:.0f}}} Hz')
 
 
 x = np.logspace(np.log10(np.min(dataset.resistances[0])), np.log10(np.max(dataset.resistances[0])), 100)
@@ -42,10 +44,11 @@ for f in np.unique(dataset.frequencies):
 plt.xscale('log')
 plt.xlabel(rf"$R\ [\Omega]$")
 plt.ylabel(r'$\frac{V}{ P^{2/3}}\ [$V$\cdot$Pa$^{-2/3}]$')
-plt.legend()
+plt.legend(frameon=False)
 plt.tight_layout()
 plt.savefig(f"results/voltage.png")
 save_tex_fig(f"results/voltage")
+print("\033[93mSaved to results/voltage\033[0m")
 
 ##########################################
 ## Plot the voltage scaling law
@@ -54,7 +57,9 @@ save_tex_fig(f"results/voltage")
 plt.figure()
 
 for R, freq, pressure, voltage, color in zip(dataset.resistances, np.unique(dataset.frequencies), dataset.pressure, dataset.voltage, colors):
-    plt.scatter(R*2*np.pi*freq, voltage / pressure, s=2, color=color, zorder=2, label=f'{freq:.0f} Hz')
+    plt.plot(R*2*np.pi*freq, voltage / pressure,
+                marker="o", linestyle='None', markersize=np.sqrt(4), 
+                color=color, zorder=2, label=rf'\ \makebox[3mm][r]{{{freq:.0f}}} Hz')
 
 
 x = np.logspace(np.log10(np.min(dataset.resistances[0])*2*np.pi*np.min(dataset.frequencies)),
@@ -65,12 +70,13 @@ for f in np.unique(dataset.frequencies):
     plt.plot(x,  model_quali_V(x, A_fit, C['nominal']),  color='gray', alpha=.2, zorder=1)
 
 plt.xscale('log')
-plt.xlabel(rf"$R\ [\Omega]$")
+plt.xlabel(rf"$R\omega\ [\Omega\cdot$Rad$\cdot$s$^{{-1}}]$")
 plt.ylabel(r'$\frac{V}{ P^{2/3}}\ [$V$\cdot$Pa$^{-2/3}]$')
-plt.legend()
+plt.legend(frameon=False)
 plt.tight_layout()
 plt.savefig(f"results/voltage_scaling.png")
 save_tex_fig(f"results/voltage_scaling")
+print("\033[93mSaved to results/voltage_scaling\033[0m")
 
 ##########################################
 ## Plot the power
@@ -79,10 +85,12 @@ save_tex_fig(f"results/voltage_scaling")
 plt.figure()
 
 for R, freq, pressure, voltage, color in zip(dataset.resistances, np.unique(dataset.frequencies), dataset.pressure, dataset.voltage, colors):
-    plt.scatter(R, (voltage/pressure)**2 / R, s=2, color=color, zorder=2, label=f'{freq:.0f} Hz')
+    plt.plot(R, (voltage/pressure)**2 / R,
+            marker="o", linestyle='None', markersize=np.sqrt(4), 
+            color=color, zorder=2, label=rf'\ \makebox[3mm][r]{{{freq:.0f}}} Hz')
 
 
-x = np.logspace(np.log10(np.min(dataset.resistances[0])), np.log10(np.max(dataset.resistances[0])) + 2, 100)
+x           = np.logspace(np.log10(np.min(dataset.resistances[0])), np.log10(np.max(dataset.resistances[0])) + 2, 100)
 
 for f in np.unique(dataset.frequencies):
     plt.plot(x,  model_quali_V(x*2*np.pi*f, A_fit, C['nominal'])**2 / x,  color='gray', alpha=.2, zorder=1)
@@ -90,7 +98,8 @@ for f in np.unique(dataset.frequencies):
 plt.xscale('log')
 plt.xlabel(rf"$R\ [\Omega]$")
 plt.ylabel(r'$\frac{P_e}{ P^{4/3}}\ [$W$\cdot$Pa$^{-4/3}]$')
-plt.legend()
+plt.legend(frameon=False)
 plt.tight_layout()
 plt.savefig(f"results/power.png")
 save_tex_fig(f"results/power")
+print("\033[93mSaved to results/power\033[0m")

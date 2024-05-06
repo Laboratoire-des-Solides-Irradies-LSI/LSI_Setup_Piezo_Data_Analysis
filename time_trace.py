@@ -36,15 +36,17 @@ model_bounds     = np.array([
                                 filter_window=301)
 ])
 
+max_idx      = np.argwhere(data.time > 1/frequency*2)[0][0]
+
 plt.figure()
-plt.plot(data.time, data.voltage, label="Measurement", color='black')
-plt.plot(data.time, model_trace, label="Model", color='black', alpha=0.4)
-plt.fill_between(data.time, np.min(model_bounds, axis=0),
-                    np.max(model_bounds, axis=0), 
+plt.plot(data.time[:max_idx], data.voltage[:max_idx], label="Measurement", color='black')
+plt.plot(data.time[:max_idx], model_trace[:max_idx], label="Model", color='black', alpha=0.4)
+plt.fill_between(data.time[:max_idx], np.min(model_bounds, axis=0)[:max_idx],
+                    np.max(model_bounds, axis=0)[:max_idx], 
                     color='black', alpha=0.1, label='Confidence interval Model')
 plt.xlabel(rf"Time [s]")
 plt.ylabel(r"$\hat{V}$ [V]")
-plt.legend()
+# plt.legend()
 plt.tight_layout()
 plt.savefig(f"results/trace.png")
 save_tex_fig(f"results/trace")

@@ -1,5 +1,5 @@
+import numpy as np
 import matplotlib.pyplot as plt
-
 
 from src.classes import Data
 
@@ -19,13 +19,14 @@ model_fft    = model_quant_V_freq(data.time, data.pressure,
                                 A = compute_A(specs)['nominal'], C = compute_C(specs)['nominal'], R_decade_box = R_decade_box,
                                 filter_window=21)
 
+max_idx      = np.argwhere(data.frequency > frequency*4.5)[0][0]
+
 plt.figure()
-plt.plot(data.frequency, voltate_fft, label="Measurement", color='black')
-plt.plot(data.frequency, model_fft, label="Model", color='black', alpha=0.2)
+plt.plot(data.frequency[:max_idx], voltate_fft[:max_idx], label="Measurement", color='black')
+plt.plot(data.frequency[:max_idx], model_fft[:max_idx], label="Model", color='black', alpha=0.2)
 plt.xlabel(rf"$\omega / 2\pi$ [Hz]")
 plt.ylabel(r"$\hat{V}$ [V]")
-plt.xlim(0, frequency*4.5)
-plt.legend()
+# plt.legend()
 plt.tight_layout()
 plt.savefig(f"results/frequency_domain.png")
 save_tex_fig(f"results/frequency_domain")
