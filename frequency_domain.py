@@ -26,7 +26,7 @@ plt.plot(data.frequency[:max_idx], voltate_fft[:max_idx], label="Measurement", c
 plt.plot(data.frequency[:max_idx], model_fft[:max_idx], label="Model", color='black', alpha=0.2)
 plt.xlabel(rf"$\omega / 2\pi$ [Hz]")
 plt.ylabel(r"$\hat{V}$ [V]")
-plt.legend(frameon=False, loc='lower center', ncols=3, bbox_to_anchor=(0.5, 1.16))
+plt.legend(frameon=False, loc='upper left', ncols=1, bbox_to_anchor=(.6, 1))
 plt.tight_layout()
 plt.savefig(f"results/frequency_domain.png")
 save_tex_fig(f"results/frequency_domain")

@@ -109,7 +109,7 @@ plt.errorbar(all_thick, As_theory, color='black', yerr=As_theory_err, capsize=5,
 plt.ylim(0, np.max(np.concatenate([As_fit, As_theory]))*1.5)
 plt.xlabel(rf"$\ell$ [um]")
 plt.ylabel(rf"$A$")
-plt.legend(frameon=False, loc='lower center', ncols=3, bbox_to_anchor=(0.5, 1.16))
+plt.legend(frameon=False, loc='upper left', ncols=1, bbox_to_anchor=(.6, 1))
 plt.tight_layout()
 plt.savefig(f"results/thickness.png")
 save_tex_fig(f"results/thickness")

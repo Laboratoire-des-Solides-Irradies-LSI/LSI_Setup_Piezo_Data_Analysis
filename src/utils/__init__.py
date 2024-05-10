@@ -5,3 +5,4 @@ from .file_extractor    import extract_files_dir, extract_file
 from .other             import ask_user_file, ask_user_folder, save_tex_fig
 from .demodulizer       import demodulate
 from .curve_fit         import fit_V
+from .filter            import smooth, smooth_derivative
