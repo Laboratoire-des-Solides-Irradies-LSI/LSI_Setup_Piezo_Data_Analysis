@@ -6,7 +6,7 @@ from src.classes import Data
 from src.utils import save_tex_fig
 from src.utils import ask_user_file
 from src.utils import model_quant_V_trace
-from src.utils import get_specs, compute_A, compute_C
+from src.utils import get_specs, compute_A_adjusted, compute_C
 from src.utils import smooth, smooth_derivative
 
 thickness, frequency, R_decade_box = ask_user_file()
@@ -14,7 +14,7 @@ thickness, frequency, R_decade_box = ask_user_file()
 data            = Data(f'data/{int(thickness)}um/SingleMeasurement_{int(frequency)}Hz_{int(R_decade_box)}Ohms.csv')
 specs           = get_specs(f'{int(thickness)}um')
 
-A               = compute_A(specs)
+A               = compute_A_adjusted(specs)
 C               = compute_C(specs)
 
 model_trace     = model_quant_V_trace(data.time, data.pressure,

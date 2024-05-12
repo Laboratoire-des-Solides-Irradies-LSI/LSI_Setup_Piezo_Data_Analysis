@@ -7,7 +7,7 @@ from src.classes import DataSet
 from src.utils import save_tex_fig
 from src.utils import ask_user_folder
 from src.utils import fit_V, model_quali_V
-from src.utils import get_specs, compute_A, compute_C
+from src.utils import get_specs, compute_A, compute_C, compute_A_adjusted
 
 
 ##########################################
@@ -17,7 +17,9 @@ from src.utils import get_specs, compute_A, compute_C
 all_thick       = np.array(np.sort([int(file[:-2]) for file in os.listdir('data') if not file.startswith('.')]), dtype=str)
 As_fit          = []
 As_theory       = []
+As_theory_adj   = []
 As_theory_err   = []
+As_theory_adj_err = []
 
 plt.figure()
 colors          = plt.cm.viridis(np.linspace(0, 1, len(all_thick)+1))
@@ -28,14 +30,19 @@ for (i, thickness) in enumerate(all_thick):
     specs       = get_specs(f'{int(thickness)}um')
     C           = compute_C(specs)
     A           = compute_A(specs)
+    A_adj       = compute_A_adjusted(specs)
 
     A_fit, _    = fit_V(np.concatenate(dataset.frequencies)*2*np.pi * np.concatenate(dataset.resistances),
                     np.concatenate(dataset.voltage) / np.concatenate(dataset.pressure),
                     C=C['nominal'])
     
     As_fit.append(A_fit)
+
     As_theory.append(A['nominal'])
     As_theory_err.append((A['upper'] - A['lower'])/2)
+
+    As_theory_adj.append(A_adj['nominal'])
+    As_theory_adj_err.append((A_adj['upper'] - A_adj['lower'])/2)
 
     plt.plot(np.concatenate(dataset.resistances)*2*np.pi*np.concatenate(dataset.frequencies),
                 np.concatenate(dataset.voltage) / np.concatenate(dataset.pressure),
@@ -71,9 +78,7 @@ for (i, thickness) in enumerate(all_thick):
 
     specs       = get_specs(f'{int(thickness)}um')
     C           = compute_C(specs)
-    A           = compute_A(specs)
     
-
     plt.plot(np.concatenate(dataset.resistances)*2*np.pi*np.concatenate(dataset.frequencies),
                 (np.concatenate(dataset.voltage) / np.concatenate(dataset.pressure))**2 / np.concatenate(dataset.resistances),
                 marker="o", linestyle='None', markersize=np.sqrt(4), 
@@ -103,12 +108,20 @@ print("\033[93mSaved to results/power_all_scaling\033[0m")
 
 plt.figure()
 l = np.linspace(10, 110, 1000)
+
 plt.scatter(all_thick, As_fit, color='black', label="Measurement", marker='o')
+
 plt.scatter(all_thick, As_theory, color='black', label="Model", marker='>')
 plt.errorbar(all_thick, As_theory, color='black', yerr=As_theory_err, capsize=5, ecolor='gray', fmt='none')
-plt.ylim(0, np.max(np.concatenate([As_fit, As_theory]))*1.5)
+
+color = plt.cm.viridis(0.4)
+plt.scatter(all_thick, As_theory_adj, color=color, label="Model adjusted", marker='*')
+plt.errorbar(all_thick, As_theory_adj, color=color, yerr=As_theory_adj_err, capsize=5, ecolor=color, fmt='none')
+
+# plt.ylim(0, np.smax(np.concatenate([As_fit, As_theory]))*1.5)
 plt.xlabel(rf"$\ell$ [um]")
 plt.ylabel(rf"$A$")
+plt.yscale('log')
 plt.legend(frameon=False, loc='upper left', ncols=1, bbox_to_anchor=(.6, 1))
 plt.tight_layout()
 plt.savefig(f"results/thickness.png")

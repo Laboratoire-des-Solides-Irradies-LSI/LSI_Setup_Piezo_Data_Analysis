@@ -19,16 +19,24 @@ def get_specs(config):
 
     return values
 
-def compute_A(values):
+def compute_A(values, log=True):
     """
     Calculate the value of the coefficient A from the specifications.
     """
     q31 = (values['d31'] + values['nu']*values['d33']) / ( (1-values['nu']) / values['ez'] - 2 * (values['nu'])**2 / values['ez'])
 
-    A = values['ap'] * q31 * ( 3 * (1-values['nu']) / (7 - values['nu']) * values['rp'] / (values['l']*values['ez'])) ** (2/3) * values['gam']
-    print(f'A    = {A.nominal_value:8.2e} ± {A.std_dev:.2e}')
+    A = values['ap'] * q31 * ( 3 * (1-values['nu']) / (7 - values['nu']) * values['rp'] / (values['l']*values['ez'])) ** (2/3)
+    if log : print(f'A    = {A.nominal_value:8.2e} ± {A.std_dev:.2e}')
 
-    return {"nominal":A.nominal_value, "lower":A.nominal_value - A.std_dev, "upper":A.nominal_value + A.std_dev}
+    return {"raw": A, "nominal":A.nominal_value, "lower":A.nominal_value - A.std_dev, "upper":A.nominal_value + A.std_dev}
+
+def compute_A_adjusted(values):
+    """
+    Calculate the value of the coefficient A from the specifications, accounting for the gold thickness.
+    """
+    A = compute_A(values, log=False)["raw"] * values['gam']
+
+    return {"raw": A, "nominal":A.nominal_value, "lower":A.nominal_value - A.std_dev, "upper":A.nominal_value + A.std_dev}
 
 def compute_C(values):
     """
@@ -37,4 +45,4 @@ def compute_C(values):
     C   = values['eps'] * 8.85e-12 * values['ae'] / values['l']
     print(f'C    = {C.nominal_value:8.2e} ± {C.std_dev:.2e}')
 
-    return {"nominal":C.nominal_value, "lower":C.nominal_value - C.std_dev, "upper":C.nominal_value + C.std_dev}
+    return {"raw": C, "nominal":C.nominal_value, "lower":C.nominal_value - C.std_dev, "upper":C.nominal_value + C.std_dev}
