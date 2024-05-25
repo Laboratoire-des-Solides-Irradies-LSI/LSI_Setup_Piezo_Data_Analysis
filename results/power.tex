@@ -1,28 +1,21 @@
 % This file was created with tikzplotlib v0.10.1.
 \begin{tikzpicture}
 
-\definecolor{darkcyan32144140}{RGB}{32,144,140}
+\definecolor{coral24814964}{RGB}{248,149,64}
+\definecolor{darkblue127134}{RGB}{12,7,134}
 \definecolor{darkgray176}{RGB}{176,176,176}
-\definecolor{darkslateblue5882139}{RGB}{58,82,139}
-\definecolor{darkslateblue7144123}{RGB}{71,44,123}
+\definecolor{darkmagenta1263167}{RGB}{126,3,167}
+\definecolor{gold25319639}{RGB}{253,196,39}
 \definecolor{gray}{RGB}{128,128,128}
-\definecolor{indigo68184}{RGB}{68,1,84}
-\definecolor{mediumseagreen40174127}{RGB}{40,174,127}
-\definecolor{mediumseagreen9420197}{RGB}{94,201,97}
-\definecolor{teal44114142}{RGB}{44,114,142}
-\definecolor{yellowgreen17322048}{RGB}{173,220,48}
+\definecolor{indianred20371119}{RGB}{203,71,119}
+\definecolor{indianred22910891}{RGB}{229,108,91}
+\definecolor{indigo762161}{RGB}{76,2,161}
+\definecolor{mediumvioletred16935149}{RGB}{169,35,149}
 
 \begin{axis}[
 legend cell align={left},
-legend columns=3,
-legend style={
-  fill opacity=0.8,
-  draw opacity=1,
-  text opacity=1,
-  at={(0.5,1.16)},
-  anchor=south,
-  draw=none
-},
+legend columns=2,
+legend style={fill opacity=0.8, draw opacity=1, text opacity=1, at={(0.6,0.95)}, draw=none},
 log basis x={10},
 tick align=outside,
 tick pos=left,
@@ -873,7 +866,7 @@ table {%
 84782122.443929 1.53530274089736e-12
 90909090.9090908 1.43200298479033e-12
 };
-\addplot [semithick, indigo68184, mark=*, mark size=1, mark options={solid}, only marks]
+\addplot [semithick, darkblue127134, mark=*, mark size=1, mark options={solid}, only marks]
 table {%
 90909.0909090909 8.98064388249552e-14
 161777.032690696 1.74066767682538e-13
@@ -884,8 +877,8 @@ table {%
 838709.677419355 9.68247457220473e-13
 909090.909090909 1.06172776648738e-12
 };
-\addlegendentry{\ \makebox[3mm][r]{8} Hz}
-\addplot [semithick, darkslateblue7144123, mark=*, mark size=1, mark options={solid}, only marks]
+\addlegendentry{\makebox[2mm][r]{8} Hz}
+\addplot [semithick, indigo762161, mark=*, mark size=1, mark options={solid}, only marks]
 table {%
 90909.0909090909 1.59783531875765e-13
 161777.032690696 2.93177435127833e-13
@@ -896,8 +889,8 @@ table {%
 838709.677419355 1.62809868940192e-12
 909090.909090909 1.80489106523546e-12
 };
-\addlegendentry{\ \makebox[3mm][r]{10} Hz}
-\addplot [semithick, darkslateblue5882139, mark=*, mark size=1, mark options={solid}, only marks]
+\addlegendentry{\makebox[2mm][r]{10} Hz}
+\addplot [semithick, darkmagenta1263167, mark=*, mark size=1, mark options={solid}, only marks]
 table {%
 90909.0909090909 2.31765587590321e-13
 161777.032690696 4.15748447900006e-13
@@ -908,8 +901,8 @@ table {%
 838709.677419355 2.33862415477755e-12
 909090.909090909 2.53705225166446e-12
 };
-\addlegendentry{\ \makebox[3mm][r]{12} Hz}
-\addplot [semithick, teal44114142, mark=*, mark size=1, mark options={solid}, only marks]
+\addlegendentry{\makebox[2mm][r]{12} Hz}
+\addplot [semithick, mediumvioletred16935149, mark=*, mark size=1, mark options={solid}, only marks]
 table {%
 90909.0909090909 3.12150750579741e-13
 161777.032690696 5.57480510910999e-13
@@ -920,8 +913,8 @@ table {%
 838709.677419355 3.24522464194833e-12
 909090.909090909 3.28774512910545e-12
 };
-\addlegendentry{\ \makebox[3mm][r]{14} Hz}
-\addplot [semithick, darkcyan32144140, mark=*, mark size=1, mark options={solid}, only marks]
+\addlegendentry{\makebox[2mm][r]{14} Hz}
+\addplot [semithick, indianred20371119, mark=*, mark size=1, mark options={solid}, only marks]
 table {%
 90909.0909090909 5.27050880929403e-13
 161777.032690696 9.1815385505466e-13
@@ -932,8 +925,8 @@ table {%
 838709.677419355 5.11419287130194e-12
 909090.909090909 5.51911360081472e-12
 };
-\addlegendentry{\ \makebox[3mm][r]{18} Hz}
-\addplot [semithick, mediumseagreen40174127, mark=*, mark size=1, mark options={solid}, only marks]
+\addlegendentry{\makebox[2mm][r]{18} Hz}
+\addplot [semithick, indianred22910891, mark=*, mark size=1, mark options={solid}, only marks]
 table {%
 90909.0909090909 7.76320938117564e-13
 161777.032690696 1.38456674842608e-12
@@ -944,8 +937,8 @@ table {%
 838709.677419355 7.64267561863576e-12
 909090.909090909 8.31408346823162e-12
 };
-\addlegendentry{\ \makebox[3mm][r]{22} Hz}
-\addplot [semithick, mediumseagreen9420197, mark=*, mark size=1, mark options={solid}, only marks]
+\addlegendentry{\makebox[2mm][r]{22} Hz}
+\addplot [semithick, coral24814964, mark=*, mark size=1, mark options={solid}, only marks]
 table {%
 90909.0909090909 1.03501490807222e-12
 161777.032690696 1.81964621263095e-12
@@ -956,8 +949,8 @@ table {%
 838709.677419355 9.73767511498537e-12
 909090.909090909 1.05024314137808e-11
 };
-\addlegendentry{\ \makebox[3mm][r]{26} Hz}
-\addplot [semithick, yellowgreen17322048, mark=*, mark size=1, mark options={solid}, only marks]
+\addlegendentry{\makebox[2mm][r]{26} Hz}
+\addplot [semithick, gold25319639, mark=*, mark size=1, mark options={solid}, only marks]
 table {%
 90909.0909090909 1.68631351701178e-12
 161777.032690696 2.9502041060144e-12
@@ -968,7 +961,7 @@ table {%
 838709.677419355 1.49977182136263e-11
 909090.909090909 1.61901233494912e-11
 };
-\addlegendentry{\ \makebox[3mm][r]{32} Hz}
+\addlegendentry{\makebox[2mm][r]{32} Hz}
 \end{axis}
 
 \end{tikzpicture}

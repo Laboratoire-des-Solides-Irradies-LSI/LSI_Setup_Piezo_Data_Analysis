@@ -30,14 +30,6 @@ def compute_A(values, log=True):
 
     return {"raw": A, "nominal":A.nominal_value, "lower":A.nominal_value - A.std_dev, "upper":A.nominal_value + A.std_dev}
 
-def compute_A_adjusted(values):
-    """
-    Calculate the value of the coefficient A from the specifications, accounting for the gold thickness.
-    """
-    A = compute_A(values, log=False)["raw"] * values['gam']
-
-    return {"raw": A, "nominal":A.nominal_value, "lower":A.nominal_value - A.std_dev, "upper":A.nominal_value + A.std_dev}
-
 def compute_C(values):
     """
     Calculate the value of the coefficient C (capacitance) from the specifications.

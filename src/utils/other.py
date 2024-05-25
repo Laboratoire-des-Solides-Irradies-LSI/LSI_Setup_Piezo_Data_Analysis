@@ -2,6 +2,7 @@ import os
 import numpy as np
 import tikzplotlib
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 
 from src.utils import extract_files_dir
 
@@ -36,5 +37,8 @@ def save_tex_fig(filename):
             tikzplotlib_fix_ncols(child)
 
     tikzplotlib_fix_ncols(plt.gcf())
+
+    Line2D._us_dashSeq    = property(lambda self: self._dash_pattern[1])
+    Line2D._us_dashOffset = property(lambda self: self._dash_pattern[0])
 
     tikzplotlib.save(filename + ".tex")
