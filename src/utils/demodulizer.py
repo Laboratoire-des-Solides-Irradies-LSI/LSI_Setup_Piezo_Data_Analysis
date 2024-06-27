@@ -2,6 +2,9 @@ import numpy as np
 from scipy.signal import savgol_filter, butter, filtfilt
 
 def low_pass_filter(signal, cutoff_frequency, fs, order=2):
+    """
+    Apply a low-pass filter to a signal.
+    """
     nyquist = 0.5 * fs
     normal_cutoff = cutoff_frequency / nyquist
     b, a = butter(order, normal_cutoff, btype='low', analog=False)

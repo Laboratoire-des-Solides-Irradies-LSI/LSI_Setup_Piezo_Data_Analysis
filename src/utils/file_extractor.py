@@ -6,11 +6,18 @@ import os
 import numpy as np
 
 def extract_file(file_path):
+    """
+    Read a single file and extract the time, pressure and voltage.
+    """
     data = np.loadtxt(file_path, comments='#', delimiter=',', skiprows=1, usecols=[0, 1, 2], dtype=float).T
     data[1] *= 1e5 #Convert bar to Pascal
     return data[:3]
 
 def extract_files_dir(directory):
+    """
+    Extract all the files from a folder.
+    Return the time, pressure, voltage, frequencies and resistances from all the files.
+    """
     loaded_data = []
     frequencies = []
     resistances = []

@@ -7,6 +7,9 @@ from matplotlib.lines import Line2D
 from src.utils import extract_files_dir
 
 def ask_user_file():
+    """
+    Ask the user for the thickness, frequency and resistance to define the file to load.
+    """
     folders   = np.array(np.sort([int(file[:-2]) for file in os.listdir('data') if not file.startswith('.')]), dtype=str)
     thickness = input("\033[92mEnter the thickness in um\033[0m\nChoose between: " + ", ".join(folders) + "\n")
 
@@ -21,12 +24,18 @@ def ask_user_file():
     return float(thickness), float(frequency), float(resistance)*1e3
 
 def ask_user_folder():
+    """
+    Ask the user for the thickness to define which folder to use.
+    """
     folders   = np.array(np.sort([int(file[:-2]) for file in os.listdir('data') if not file.startswith('.')]), dtype=str)
     thickness = input("\033[92mEnter the thickness in um\033[0m\nChoose between: " + ", ".join(folders) + "\n")
 
     return float(thickness)
 
 def save_tex_fig(filename):
+    """
+    Save the current plot to a .tex file.
+    """
     def tikzplotlib_fix_ncols(obj):
         """
         workaround for matplotlib 3.6 renamed legend's _ncol to _ncols, which breaks tikzplotlib
