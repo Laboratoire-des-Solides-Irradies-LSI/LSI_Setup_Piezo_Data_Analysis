@@ -9,6 +9,9 @@ def low_pass_filter(signal, cutoff_frequency, fs, order=2):
     return filtered_signal
 
 def demodulate(t, signal, frequency, win_size=5):
+    """
+    Demodulate a signal at a given frequency.
+    """
     cut_freq = frequency / 2
 
     signal = savgol_filter(signal, window_length=win_size, polyorder=3, deriv=0, delta=t[1] - t[0])
