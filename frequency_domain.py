@@ -45,9 +45,9 @@ max_idx         = np.argwhere(data.frequency > frequency*4.5)[0][0]
 
 plt.figure()
 
-plt.plot(data.frequency[:max_idx], voltate_fft[:max_idx], label="Measurement", color=plt.cm.plasma(0.3))
-plt.plot(data.frequency[:max_idx], voltate_fft[:max_idx]/specs['gam'].nominal_value, label="Adjusted Measurement", color=plt.cm.plasma(0.8))
-plt.plot(data.frequency[:max_idx], model_fft[:max_idx], label="Model", color="black", alpha=0.4)
+# plt.plot(data.frequency[:max_idx], voltate_fft[:max_idx], label="Measurement", color=plt.cm.plasma(0.3))
+plt.scatter(data.frequency[:max_idx], voltate_fft[:max_idx]/specs['gam'].nominal_value, label="Measurement", color="black", zorder=2)
+plt.plot(data.frequency[:max_idx], model_fft[:max_idx], '--', label="Model", color="grey", zorder=1)
 
 plt.fill_between(data.frequency[:max_idx], np.min(model_bounds, axis=0)[:max_idx],
                     np.max(model_bounds, axis=0)[:max_idx],
@@ -66,16 +66,27 @@ print("\033[93mSaved to results/frequency_domain\033[0m")
 ## Plot pressure input
 ##########################################
 
-pressure_fft    = get_fourier(np.power(data.pressure, 2/3))
+pressure_fft    = get_fourier(np.power(data.pressure / 1e3, 2/3))
 
 plt.figure()
 
-plt.plot(data.frequency[:max_idx], pressure_fft[:max_idx], label="Measurement", color="black")
+plt.plot(data.frequency[:max_idx], 2*np.pi*data.frequency[:max_idx]*pressure_fft[:max_idx], label="Measurement", color="black")
 
 plt.xlabel(rf"$\omega / 2\pi$ [Hz]")
-plt.ylabel(r"$\hat{p^{2/3}_{in}} Pa^{2/3}$")
+plt.ylabel(r"$\omega \mathscr{F}_t(\delta p^{2/3}) $kPa$^{2/3}/$s")
 plt.legend(frameon=False, loc='upper left', ncols=1, bbox_to_anchor=(.6, 1))
 plt.tight_layout()
+
+fundamental_freq = np.argmax((data.frequency*pressure_fft)[:max_idx])
+
+current_ticks = plt.xticks()[0]
+current_labels = plt.xticks()[1]
+
+new_tick = data.frequency[fundamental_freq]
+new_label = r'$p_\omega$'
+
+plt.xticks(np.append(current_ticks, new_tick), np.append(current_labels, new_label))
+
 plt.savefig(f"results/pressure_fft.png")
 save_tex_fig(f"results/pressure_fft")
 print("\033[93mSaved to results/pressure_fft\033[0m")

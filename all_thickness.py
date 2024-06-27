@@ -69,20 +69,23 @@ print("\033[93mSaved to results/voltage_all_scaling\033[0m")
 plt.figure()
 l = np.linspace(np.min(all_thick), np.max(all_thick), 100)
 
+print(all_thick)
+
+plt.scatter(all_thick**(-2/3), As_fit * np.array([3.563/2.41, 2.239/1.67 , 1]), color='red', label="Corrected Measurement", marker='s')
 plt.scatter(all_thick**(-2/3), As_fit, color='black', label="Measurement", marker='o')
-plt.scatter(all_thick**(-2/3), As_adjusted, color='black', label="Ajusted Measurement", marker='s')
 
 plt.scatter(all_thick**(-2/3), As_theory, color='black', label="Model", marker='>')
 plt.errorbar(all_thick**(-2/3), As_theory, color='black', yerr=As_theory_err, capsize=5, ecolor='gray', fmt='none')
 
 plt.plot(l**(-2/3), np.mean(As_theory / all_thick**(-2/3)) *l**(-2/3), "--", color="black", alpha=0.4)
-plt.plot(l**(-2/3), np.mean(As_adjusted / all_thick**(-2/3)) *l**(-2/3), "--", color="black", alpha=0.4)
+# plt.plot(l**(-2/3), np.mean(As_adjusted / all_thick**(-2/3)) *l**(-2/3), "--", color="black", alpha=0.4)
 
 color = plt.cm.plasma(0.4)
 
 # plt.ylim(0, np.smax(np.concatenate([As_fit, As_theory]))*1.5)
 plt.xlabel(rf"$\ell^{{-2/3}}$ [um]")
 plt.ylabel(rf"$A$")
+plt.ylim(0, np.max(As_theory)*1.4)
 # plt.yscale('log')
 plt.legend(frameon=False, loc='upper left', ncols=1, bbox_to_anchor=(.05, 1))
 plt.tight_layout()

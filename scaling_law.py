@@ -19,7 +19,7 @@ specs         = get_specs(f'{int(thickness)}um')
 C             = compute_C(specs)
 
 A_fit, _      = fit_V(np.concatenate(dataset.frequencies)*2*np.pi * np.concatenate(dataset.resistances),
-                 np.concatenate(dataset.voltage) / np.concatenate(dataset.pressure),
+                 np.concatenate(dataset.voltage) / np.power(np.concatenate(dataset.pressure), 2/3),
                  C=C['nominal'])
 
 colors        = plt.cm.plasma(np.linspace(0, 1, len(dataset.frequencies)+1))
@@ -31,7 +31,7 @@ colors        = plt.cm.plasma(np.linspace(0, 1, len(dataset.frequencies)+1))
 plt.figure()
 
 for R, freq, pressure, voltage, color in zip(dataset.resistances, np.unique(dataset.frequencies), dataset.pressure, dataset.voltage, colors):
-    plt.plot(R, voltage / pressure,
+    plt.plot(R, voltage / np.power(pressure, 2/3),
                 marker="o", linestyle='None', markersize=np.sqrt(4), 
                 color=color, zorder=2, label=rf'\makebox[2mm][r]{{{freq:.0f}}} Hz')
 
@@ -57,7 +57,7 @@ print("\033[93mSaved to results/voltage\033[0m")
 plt.figure()
 
 for R, freq, pressure, voltage, color in zip(dataset.resistances, np.unique(dataset.frequencies), dataset.pressure, dataset.voltage, colors):
-    plt.plot(R*2*np.pi*freq, voltage / pressure,
+    plt.plot(R*2*np.pi*freq, voltage / np.power(pressure, 2/3),
                 marker="o", linestyle='None', markersize=np.sqrt(4), 
                 color=color, zorder=2, label=rf'\makebox[2mm][r]{{{freq:.0f}}} Hz')
 
@@ -98,10 +98,16 @@ x           = np.logspace(np.log10(np.min(dataset.resistances[0])), np.log10(np.
 for f in np.unique(dataset.frequencies):
     plt.plot(x,  model_quali_V(x*2*np.pi*f, A_fit, C['nominal'])**2 / x,  color='gray', alpha=.2, zorder=1)
 
+frequencies = np.linspace(np.min(dataset.frequencies)*0.9, np.max(dataset.frequencies)*1.1, 100)
+
+plt.plot(1/(C['nominal']*2*np.pi*frequencies),
+         model_quali_V(1/C['nominal'], A_fit, C['nominal'])**2 * C['nominal'] * 2*np.pi*frequencies,
+         "--", color='black', alpha=0.4)
+
 plt.xscale('log')
 plt.xlabel(rf"$R\ [\Omega]$")
 plt.ylabel(r'$\frac{P_e}{ P^{4/3}}\ [$W$\cdot$Pa$^{-4/3}]$')
-plt.legend(frameon=False, loc='upper right', ncols=2, bbox_to_anchor=(.6, .95))
+plt.legend(frameon=False, loc='upper left', ncols=2, bbox_to_anchor=(.6, .95))
 plt.tight_layout()
 plt.savefig(f"results/power.png")
 save_tex_fig(f"results/power")
