@@ -15,7 +15,6 @@ from src.utils import get_specs, compute_A, compute_C
 
 all_thick       = np.array(np.sort([int(file[:-2]) for file in os.listdir('data') if not file.startswith('.')]), dtype=float)
 As_fit          = []
-As_adjusted     = []
 As_theory       = []
 As_theory_err   = []
 
@@ -30,17 +29,16 @@ for (i, thickness) in enumerate(all_thick):
     A           = compute_A(specs)
 
     A_fit, _    = fit_V(np.concatenate(dataset.frequencies)*2*np.pi * np.concatenate(dataset.resistances),
-                    np.concatenate(dataset.voltage) / np.concatenate(dataset.pressure),
+                    np.concatenate(dataset.voltage) / np.concatenate(dataset.pressure_p2third),
                     C=C['nominal'])
     
     As_fit.append(A_fit)
-    As_adjusted.append(A_fit / specs['gam'].nominal_value)
 
     As_theory.append(A['nominal'])
     As_theory_err.append((A['upper'] - A['lower'])/2)
 
     plt.plot(np.concatenate(dataset.resistances)*2*np.pi*np.concatenate(dataset.frequencies),
-                np.concatenate(dataset.voltage) / np.concatenate(dataset.pressure),
+                np.concatenate(dataset.voltage) / np.power(np.concatenate(dataset.pressure_p2third), 2/3),
                 marker="o", linestyle='None', markersize=np.sqrt(4), 
                 color=colors[i], zorder=2, label=rf'\makebox[6mm][r]{{{thickness}}} $\mu$m')
 
@@ -69,24 +67,17 @@ print("\033[93mSaved to results/voltage_all_scaling\033[0m")
 plt.figure()
 l = np.linspace(np.min(all_thick), np.max(all_thick), 100)
 
-print(all_thick)
-
-plt.scatter(all_thick**(-2/3), As_fit * np.array([3.563/2.41, 2.239/1.67 , 1]), color='red', label="Corrected Measurement", marker='s')
 plt.scatter(all_thick**(-2/3), As_fit, color='black', label="Measurement", marker='o')
-
-plt.scatter(all_thick**(-2/3), As_theory, color='black', label="Model", marker='>')
 plt.errorbar(all_thick**(-2/3), As_theory, color='black', yerr=As_theory_err, capsize=5, ecolor='gray', fmt='none')
+plt.scatter(all_thick**(-2/3), As_theory, color='black', label="Model", marker='>')
 
 plt.plot(l**(-2/3), np.mean(As_theory / all_thick**(-2/3)) *l**(-2/3), "--", color="black", alpha=0.4)
-# plt.plot(l**(-2/3), np.mean(As_adjusted / all_thick**(-2/3)) *l**(-2/3), "--", color="black", alpha=0.4)
 
 color = plt.cm.plasma(0.4)
 
-# plt.ylim(0, np.smax(np.concatenate([As_fit, As_theory]))*1.5)
 plt.xlabel(rf"$\ell^{{-2/3}}$ [um]")
 plt.ylabel(rf"$A$")
-plt.ylim(0, np.max(As_theory)*1.4)
-# plt.yscale('log')
+# plt.ylim(0, np.max(As_theory)*1.4)
 plt.legend(frameon=False, loc='upper left', ncols=1, bbox_to_anchor=(.05, 1))
 plt.tight_layout()
 plt.savefig(f"results/thickness.png")

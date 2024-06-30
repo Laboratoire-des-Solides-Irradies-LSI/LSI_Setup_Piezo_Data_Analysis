@@ -22,25 +22,17 @@ xmin=0.0346059638620008, xmax=0.198222837722233,
 xtick style={color=black},
 y grid style={darkgray176},
 ylabel={\(\displaystyle A\)},
-ymin=0, ymax=6.45791164943818e-11,
+ymin=8.85391589976804e-14, ymax=1.58304786968298e-10,
 ytick style={color=black},
-ytick={0,1e-11,2e-11,3e-11,4e-11,5e-11,6e-11,7e-11},
-yticklabels={0,1,2,3,4,5,6,7}
+ytick={0,2e-11,4e-11,6e-11,8e-11,1e-10,1.2e-10,1.4e-10,1.6e-10},
+yticklabels={0.0,0.2,0.4,0.6,0.8,1.0,1.2,1.4,1.6}
 ]
-\addplot [draw=red, fill=red, mark=square*, only marks]
-table{%
-x  y
-0.190785707092222 3.32934920961651e-11
-0.108449606138417 2.93362629693821e-11
-0.0420430944920113 1.01901886166217e-11
-};
-\addlegendentry{Corrected Measurement}
 \addplot [draw=black, fill=black, mark=*, only marks]
 table{%
 x  y
-0.190785707092222 2.25195947100078e-11
-0.108449606138417 2.1881000070955e-11
-0.0420430944920113 1.01901886166217e-11
+0.190785707092222 1.51113139340602e-10
+0.108449606138417 1.48764143206041e-10
+0.0420430944920113 6.8679417926444e-11
 };
 \addlegendentry{Measurement}
 \addplot [draw=black, fill=black, mark options={rotate=90}, mark=triangle*, only marks]

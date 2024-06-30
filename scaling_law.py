@@ -19,7 +19,7 @@ specs         = get_specs(f'{int(thickness)}um')
 C             = compute_C(specs)
 
 A_fit, _      = fit_V(np.concatenate(dataset.frequencies)*2*np.pi * np.concatenate(dataset.resistances),
-                 np.concatenate(dataset.voltage) / np.power(np.concatenate(dataset.pressure), 2/3),
+                 np.concatenate(dataset.voltage) / np.concatenate(dataset.pressure_p2third),
                  C=C['nominal'])
 
 colors        = plt.cm.plasma(np.linspace(0, 1, len(dataset.frequencies)+1))
@@ -30,8 +30,8 @@ colors        = plt.cm.plasma(np.linspace(0, 1, len(dataset.frequencies)+1))
 
 plt.figure()
 
-for R, freq, pressure, voltage, color in zip(dataset.resistances, np.unique(dataset.frequencies), dataset.pressure, dataset.voltage, colors):
-    plt.plot(R, voltage / np.power(pressure, 2/3),
+for R, freq, pressure, voltage, color in zip(dataset.resistances, np.unique(dataset.frequencies), dataset.pressure_p2third, dataset.voltage, colors):
+    plt.plot(R, voltage / pressure,
                 marker="o", linestyle='None', markersize=np.sqrt(4), 
                 color=color, zorder=2, label=rf'\makebox[2mm][r]{{{freq:.0f}}} Hz')
 
@@ -56,7 +56,7 @@ print("\033[93mSaved to results/voltage\033[0m")
 
 plt.figure()
 
-for R, freq, pressure, voltage, color in zip(dataset.resistances, np.unique(dataset.frequencies), dataset.pressure, dataset.voltage, colors):
+for R, freq, pressure, voltage, color in zip(dataset.resistances, np.unique(dataset.frequencies), dataset.pressure_p2third, dataset.voltage, colors):
     plt.plot(R*2*np.pi*freq, voltage / np.power(pressure, 2/3),
                 marker="o", linestyle='None', markersize=np.sqrt(4), 
                 color=color, zorder=2, label=rf'\makebox[2mm][r]{{{freq:.0f}}} Hz')
@@ -87,8 +87,8 @@ print("\033[93mSaved to results/voltage_scaling\033[0m")
 
 plt.figure()
 
-for R, freq, pressure, voltage, color in zip(dataset.resistances, np.unique(dataset.frequencies), dataset.pressure, dataset.voltage, colors):
-    plt.plot(R, (voltage/pressure)**2 / R,
+for R, freq, pressure, voltage, color in zip(dataset.resistances, np.unique(dataset.frequencies), dataset.pressure_p2third, dataset.voltage, colors):
+    plt.plot(R, (voltage/np.power(pressure, 2/3))**2 / R,
             marker="o", linestyle='None', markersize=np.sqrt(4), 
             color=color, zorder=2, label=rf'\makebox[2mm][r]{{{freq:.0f}}} Hz')
 
@@ -107,7 +107,7 @@ plt.plot(1/(C['nominal']*2*np.pi*frequencies),
 plt.xscale('log')
 plt.xlabel(rf"$R\ [\Omega]$")
 plt.ylabel(r'$\frac{P_e}{ P^{4/3}}\ [$W$\cdot$Pa$^{-4/3}]$')
-plt.legend(frameon=False, loc='upper left', ncols=2, bbox_to_anchor=(.6, .95))
+plt.legend(frameon=False, loc='upper left', ncols=2, bbox_to_anchor=(.05, .95))
 plt.tight_layout()
 plt.savefig(f"results/power.png")
 save_tex_fig(f"results/power")

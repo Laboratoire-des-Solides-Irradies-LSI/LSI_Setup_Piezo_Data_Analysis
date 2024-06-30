@@ -45,8 +45,7 @@ max_idx         = np.argwhere(data.frequency > frequency*4.5)[0][0]
 
 plt.figure()
 
-# plt.plot(data.frequency[:max_idx], voltate_fft[:max_idx], label="Measurement", color=plt.cm.plasma(0.3))
-plt.scatter(data.frequency[:max_idx], voltate_fft[:max_idx]/specs['gam'].nominal_value, label="Measurement", color="black", zorder=2)
+plt.scatter(data.frequency[:max_idx], voltate_fft[:max_idx], label="Measurement", color="black", zorder=2)
 plt.plot(data.frequency[:max_idx], model_fft[:max_idx], '--', label="Model", color="grey", zorder=1)
 
 plt.fill_between(data.frequency[:max_idx], np.min(model_bounds, axis=0)[:max_idx],

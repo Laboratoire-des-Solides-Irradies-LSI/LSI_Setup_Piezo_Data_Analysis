@@ -48,8 +48,8 @@ skip         = np.max([1, len(data.time[:max_idx])//max_nb_points])
 plt.figure()
 
 plt.plot(data.time[min_idx:max_idx:skip] * 1e3, data.voltage[min_idx:max_idx:skip], label="Measurement", color="black")
-
 plt.plot(data.time[min_idx:max_idx:skip] * 1e3, model_trace[min_idx:max_idx:skip], "--", label="Model", color='grey')
+
 plt.fill_between(data.time[min_idx:max_idx:skip] * 1e3, np.min(model_bounds, axis=0)[min_idx:max_idx:skip],
                     np.max(model_bounds, axis=0)[min_idx:max_idx:skip], 
                     color='black', alpha=0.1) #, label='Confidence interval Model'

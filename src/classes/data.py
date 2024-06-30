@@ -18,11 +18,11 @@ class DataSet:
         self.resistances = R_effective(self.resistances)
 
         # Demodulate the data to extract the amplitude at the fundamental frequency
-        self.pressure = np.array([demodulate(t, np.power(p, 2/3), freq) for t, p, freq in zip(time, pressure, self.frequencies)])
+        self.pressure_p2third = np.array([demodulate(t, np.power(p, 2/3), freq) for t, p, freq in zip(time, pressure, self.frequencies)])
         self.voltage  = np.array([demodulate(t, V, freq) for t, V, freq in zip(time, voltage, self.frequencies)])
 
         # Split the data into arrays of the same frequency
         self.frequencies = np.split(self.frequencies, np.unique(self.frequencies, return_index=True)[1][1:])
         self.resistances = np.split(self.resistances, np.unique(self.frequencies, return_index=True)[1][1:])
-        self.pressure    = np.split(self.pressure, np.unique(self.frequencies, return_index=True)[1][1:])
+        self.pressure_p2third    = np.split(self.pressure_p2third, np.unique(self.frequencies, return_index=True)[1][1:])
         self.voltage     = np.split(self.voltage, np.unique(self.frequencies, return_index=True)[1][1:])

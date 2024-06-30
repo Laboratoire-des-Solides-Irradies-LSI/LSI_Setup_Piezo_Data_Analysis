@@ -13,7 +13,7 @@ def fit_V(x, y, C, initial_guess=[0]):
     sorted_indices = np.argsort(x)
     x = x[sorted_indices]
     y = y[sorted_indices]
-
+ 
     popt, pcov = curve_fit(model, x, y, p0=initial_guess)
 
     return popt[0], pcov[0]
